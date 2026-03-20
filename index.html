@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPE Rechner - Diabetes Management</title>
+    <style>
+        body { font-family: -apple-system, system-ui, sans-serif; background: #121212; color: white; padding: 15px; }
+        .fpe-container { max-width: 500px; margin: auto; background: #1e1e1e; padding: 20px; border-radius: 15px; border: 1px solid #333; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        h2 { color: #5dade2; text-align: center; margin-top: 0; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 14px; margin-bottom: 5px; color: #aaa; }
+        input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #444; background: #2c2c2c; color: white; box-sizing: border-box; font-size: 16px; text-align: center; }
+        .calc-btn { width: 100%; padding: 15px; background: #3498db; border: none; border-radius: 10px; color: white; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        .result-box { margin-top: 20px; padding: 15px; background: #2ecc7122; border-radius: 10px; border: 1px solid #2ecc71; display: none; }
+        .fpe-value { font-size: 24px; font-weight: bold; color: #2ecc71; display: block; text-align: center; }
+        .hint-card { background: #34495e; padding: 15px; border-radius: 10px; margin-top: 15px; font-size: 13px; line-height: 1.5; border-left: 4px solid #f1c40f; }
+        .disclaimer { font-size: 11px; color: #888; margin-top: 20px; font-style: italic; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="fpe-container">
+    <h2>🥩 FPE Rechner</h2>
+    
+    <div class="input-group">
+        <label>Fett (in Gramm):</label>
+        <input type="number" id="fett" placeholder="z.B. 30" oninput="calculateFPE()">
+    </div>
+    
+    <div class="input-group">
+        <label>Eiweiß / Protein (in Gramm):</label>
+        <input type="number" id="protein" placeholder="z.B. 40" oninput="calculateFPE()">
+    </div>
+
+    <div id="result-area" class="result-box">
+        <span id="fpe-display" class="fpe-value">0.0 FPE</span>
+        <p id="time-hint" style="text-align: center; font-weight: bold; margin: 10px 0;"></p>
+        
+        <div class="hint-card">
+            <strong>💡 Spritz-Tipp:</strong><br>
+            FPE werden oft <b>verzögert</b> (Dual- oder Multiwave-Bolus) abgegeben. 
+            Beginne vorsichtig: Viele starten mit <b>30-50%</b> ihrer normalen BE-Rate pro FPE und verteilen dies über den berechneten Zeitraum.
+        </div>
+    </div>
+
+    <p class="disclaimer">
+        Hinweis: Dies ist eine Schätzung. FPE-Faktoren sind sehr individuell. Bitte teste neue Einstellungen vorsichtig und in Absprache mit deinem Arzt.
+    </p>
+</div>
+
+<script>
+function calculateFPE() {
+    const fett = parseFloat(document.getElementById('fett').value) || 0;
+    const protein = parseFloat(document.getElementById('protein').value) || 0;
+    
+    // Formel: (Fett * 9 kcal + Protein * 4 kcal) / 100 kcal = 1 FPE
+    const kcal = (fett * 9) + (protein * 4);
+    const fpe = kcal / 100;
+    
+    const resultBox = document.getElementById('result-area');
+    const display = document.getElementById('fpe-display');
+    const timeHint = document.getElementById('time-hint');
+
+    if (fpe > 0) {
+        resultBox.style.display = 'block';
+        display.innerText = fpe.toFixed(1) + " FPE";
+        
+        // Faustformel für die Verzögerung
+        let stunden = "";
+        if (fpe <= 1) stunden = "ca. 2-3 Stunden";
+        else if (fpe <= 2) stunden = "ca. 3-4 Stunden";
+        else if (fpe <= 3) stunden = "ca. 4-5 Stunden";
+        else stunden = "ca. 5-8 Stunden";
+        
+        timeHint.innerHTML = "⏱ Empfohlene Verzögerung: " + stunden;
+    } else {
+        resultBox.style.display = 'none';
+    }
+}
+</script>
+
+</body>
+</html>
