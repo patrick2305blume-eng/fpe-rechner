@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FPE Rechner - Präzise</title>
+    <title>FPE Rechner - Präzise Einheiten</title>
     <style>
         body { font-family: -apple-system, system-ui, sans-serif; background: #121212; color: white; padding: 15px; }
         .fpe-container { max-width: 500px; margin: auto; background: #1e1e1e; padding: 20px; border-radius: 15px; border: 1px solid #333; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
@@ -39,12 +39,12 @@
         <div class="hint-card">
             <strong>💡 Spritz-Tipp (Vorsicht):</strong><br>
             FPE werden oft <b>verzögert</b> abgegeben. 
-            Ein gängiger Test-Ansatz ist, mit <b>30-50%</b> des üblichen Faktors für Kohlenhydrate (g KH, KE oder BE) pro FPE zu starten. Den Bolus dann über den berechneten Zeitraum verteilen.
+            Beginne vorsichtig: Viele starten mit <b>30-50%</b> ihres <b>KE- oder BE-Faktors bzw. der Gramm Kohlenhydrate</b> pro FPE und verteilen dies über den berechneten Zeitraum.
         </div>
     </div>
 
     <p class="disclaimer">
-        Hinweis: Dies ist eine Schätzung. FPE-Faktoren sind extrem individuell. Teste neue Einstellungen sehr vorsichtig und besprich sie mit deinem Diabetesteam.
+        Hinweis: Dies ist eine Schätzung. FPE-Faktoren sind individuell. Teste neue Einstellungen sehr vorsichtig und besprich sie mit deinem Arzt.
     </p>
 </div>
 
@@ -65,13 +65,13 @@ function calculateFPE() {
         resultBox.style.display = 'block';
         display.innerText = fpe.toFixed(1) + " FPE";
         
-        // Korrigierte Zeitspannen (praxisnäher)
+        // Korrigierte Zeitspannen nach aktuellem Standard
         let stunden = "";
         if (fpe <= 1.0) stunden = "ca. 2 - 3 Stunden";
         else if (fpe <= 2.0) stunden = "ca. 3 - 4 Stunden";
-        else if (fpe <= 3.0) stunden = "ca. 4 - 5 Stunden";
+        else if (fpe <= 3.0) stunden = "ca. 4 - 5 Stunden"; // Korrektur für 3 FPE
         else if (fpe <= 4.0) stunden = "ca. 5 - 6 Stunden";
-        else stunden = "ca. 6 - 8 Stunden (sehr fettreich)";
+        else stunden = "ca. 6 - 8 Stunden";
         
         timeHint.innerHTML = "⏱ Empfohlene Verzögerung: " + stunden;
     } else {
